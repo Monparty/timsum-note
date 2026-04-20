@@ -27,55 +27,58 @@ function Page() {
                 if (event.canceled) return;
 
                 const { source, target } = event.operation;
+                if (!source) return;
+
                 const id = source.id;
 
-                // ลากทิ้ง
+                // ลากทิ้ง (ไม่ได้ drop ลง Droppable ใดเลย)
                 if (!target) {
                     setDroppedItems((prev) => prev.filter((item) => item.id !== id));
                     return;
                 }
 
-                // drop ลง droppable
-                if (target.id === "droppable") {
-                    const original = items.find((el) => el.id === id);
-                    if (!original) return;
+                // drop ลงช่อง cell ใดก็ได้
+                const original = items.find((el) => el.id === id) || droppedItems.find((el) => el.id === id);
 
-                    const newItem = {
-                        ...original,
-                        id: crypto.randomUUID(),
-                    };
+                if (!original) return;
 
-                    setDroppedItems((prev) => [...prev, newItem]);
-                    setDisplayPalette(false);
-                }
+                setDroppedItems((prev) => [
+                    ...prev.filter((el) => el.id !== id), // ลบอันเดิมออก
+                    { ...original, id: crypto.randomUUID(), cellId: target.id },
+                ]);
+
+                setDisplayPalette(false);
             }}
         >
             <div className="h-dvh flex flex-col bg-amber-100">
                 <div className="flex-2 pt-10 py-6 px-4">
                     <div className="border-4 border-amber-500 p-2 w-full h-full bg-amber-200 rounded-lg">
-                        <Droppable id="droppable">
-                            <div className="grid grid-cols-5 gap-2">
-                                {droppedItems.map((el) => (
-                                    <Draggable
-                                        key={el.id}
-                                        id={el.id}
-                                        title={el.title}
-                                        src={el.src}
-                                        onClick={() => {
-                                            setDisplayPopup(!displayPopup);
-                                            setSelectedId(el.id);
-                                        }}
-                                    />
-                                ))}
-                            </div>
-                        </Droppable>
+                        <div className="grid grid-cols-5 grid-rows-5 gap-2 h-full">
+                            {Array.from({ length: 25 }).map((_, index) => (
+                                <Droppable key={index} id={`cell-${index}`}>
+                                    {droppedItems
+                                        .filter((item) => item.cellId === `cell-${index}`)
+                                        .map((el) => (
+                                            <Draggable
+                                                key={el.id}
+                                                id={el.id}
+                                                src={el.src}
+                                                onClick={() => {
+                                                    setDisplayPopup(!displayPopup);
+                                                    setSelectedId(el.id);
+                                                }}
+                                            />
+                                        ))}
+                                </Droppable>
+                            ))}
+                        </div>
                     </div>
                 </div>
-                <div className="border flex-1">
-                    <div className="border h-full relative">
+                <div className="flex-1">
+                    <div className="h-full relative">
                         <div className="absolute bottom-8 right-14 flex flex-col w-fit items-end gap-1">
                             {displayPalette && (
-                                <div className="border p-2 w-fit flex gap-2">
+                                <div className="p-2 w-fit flex gap-2">
                                     {items.map((el) => (
                                         <Draggable key={el.id} id={el.id} title={el.title} src={el.src} />
                                     ))}
@@ -203,7 +206,7 @@ function Page() {
                                             ))}
                                         </ul>
                                         <button
-                                            className="border h-14 w-14 absolute bottom-2 right-2 rounded-full bg-white"
+                                            className="h-14 w-14 absolute bottom-2 right-2 rounded-full bg-white"
                                             onClick={() => setDisplayPopup(false)}
                                         >
                                             ปิด
@@ -211,7 +214,7 @@ function Page() {
                                     </div>
                                 </div>
                                 <div className="flex-1">
-                                    <div className="border h-full relative">bottom</div>
+                                    <div className="h-full relative">bottom</div>
                                 </div>
                             </div>
                         )}
@@ -237,7 +240,7 @@ function Page() {
                                             {selectedItem?.note || ""}
                                         </textarea>
                                         <button
-                                            className="border h-14 w-14 absolute bottom-2 right-2 rounded-full bg-white"
+                                            className="h-14 w-14 absolute bottom-2 right-2 rounded-full bg-white"
                                             onClick={() => setDisplayPopup(false)}
                                         >
                                             ปิด
@@ -245,7 +248,7 @@ function Page() {
                                     </div>
                                 </div>
                                 <div className="flex-1">
-                                    <div className="border h-full relative">bottom</div>
+                                    <div className="h-full relative">bottom</div>
                                 </div>
                             </div>
                         )}
@@ -255,7 +258,7 @@ function Page() {
                                     <div className="border-4 border-amber-500 p-2 w-full h-full bg-amber-200 rounded-lg relative">
                                         รูป
                                         <button
-                                            className="border h-14 w-14 absolute bottom-2 right-2 rounded-full bg-white"
+                                            className="h-14 w-14 absolute bottom-2 right-2 rounded-full bg-white"
                                             onClick={() => setDisplayPopup(false)}
                                         >
                                             ปิด
@@ -263,7 +266,7 @@ function Page() {
                                     </div>
                                 </div>
                                 <div className="flex-1">
-                                    <div className="border h-full relative">bottom</div>
+                                    <div className="h-full relative">bottom</div>
                                 </div>
                             </div>
                         )}
