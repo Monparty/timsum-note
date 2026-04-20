@@ -9,15 +9,17 @@ import checkList from "../../public/images/checkList.png";
 
 function Page() {
     const [items] = useState([
-        { id: 1, src: checkList, title: "CL", data: [{ isCheck: false, text: "" }], type: "CL" },
-        { id: 2, src: note, title: "NO", data: [{ isCheck: false, text: "" }], type: "NO" },
-        { id: 3, src: camra, title: "PH", data: [{ isCheck: false, text: "" }], type: "PH" },
+        { id: 1, src: checkList, title: "", data: [{ isCheck: false, text: "" }], type: "checkList", note: "" },
+        { id: 2, src: note, title: "", data: [{ isCheck: false, text: "" }], type: "note", note: "" },
+        { id: 3, src: camra, title: "", data: [{ isCheck: false, text: "" }], type: "camra", note: "" },
     ]);
     const [droppedItems, setDroppedItems] = useState([]);
     const [selectedId, setSelectedId] = useState(null);
     const [displayPalette, setDisplayPalette] = useState(false);
     const [displayPopup, setDisplayPopup] = useState(false);
     const selectedItem = droppedItems.find((item) => item.id === selectedId);
+
+    // console.log("selectedItem", selectedItem);
 
     return (
         <DragDropProvider
@@ -60,7 +62,6 @@ function Page() {
                                         title={el.title}
                                         src={el.src}
                                         onClick={() => {
-                                            console.log("el.id", el.id);
                                             setDisplayPopup(!displayPopup);
                                             setSelectedId(el.id);
                                         }}
@@ -88,125 +89,184 @@ function Page() {
                     </div>
                 </div>
                 {displayPopup && (
-                    <div className="bg-green-300 w-full h-full fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                        <div className="h-dvh flex flex-col bg-green-300">
-                            <div className="flex-2 pt-10 py-6 px-4">
-                                <div className="border-4 border-amber-500 p-2 w-full h-full bg-amber-200 rounded-lg relative">
-                                    <div className="w-full flex justify-center text-lg font-bold mb-3">
-                                        <input
-                                            className="border w-40 text-center"
-                                            type="text"
-                                            value={selectedItem?.title || ""}
-                                            placeholder="หัวเรื่อง"
-                                            onChange={(e) => {
-                                                const text = e.target.value;
-
-                                                setDroppedItems((prev) =>
-                                                    prev.map((item) =>
-                                                        item.id === selectedId
-                                                            ? {
-                                                                  ...item,
-                                                                  title: text,
-                                                              }
-                                                            : item,
-                                                    ),
-                                                );
-                                            }}
-                                        />
-                                    </div>
-                                    <ul className="grid gap-4">
-                                        {selectedItem?.data?.map((subItem, index) => (
-                                            <li key={subItem.id} className="flex gap-2 items-center">
-                                                {index + 1}
-                                                <input
-                                                    type="checkbox"
-                                                    checked={subItem.checked}
-                                                    onChange={(e) => {
-                                                        const checked = e.target.checked;
-
-                                                        setDroppedItems((prev) =>
-                                                            prev.map((item) =>
-                                                                item.id === selectedId
-                                                                    ? {
-                                                                          ...item,
-                                                                          data: item.data.map((d) =>
-                                                                              d.id === subItem.id
-                                                                                  ? { ...d, checked }
-                                                                                  : d,
-                                                                          ),
-                                                                      }
-                                                                    : item,
-                                                            ),
-                                                        );
-                                                    }}
-                                                />
-
-                                                <input
-                                                    className="border w-full sub-input"
-                                                    value={subItem.text}
-                                                    onChange={(e) => {
-                                                        const text = e.target.value;
-
-                                                        setDroppedItems((prev) =>
-                                                            prev.map((item) =>
-                                                                item.id === selectedId
-                                                                    ? {
-                                                                          ...item,
-                                                                          data: item.data.map((d) =>
-                                                                              d.id === subItem.id ? { ...d, text } : d,
-                                                                          ),
-                                                                      }
-                                                                    : item,
-                                                            ),
-                                                        );
-                                                    }}
-                                                    onKeyDown={(event) => {
-                                                        if (event.key === "Enter") {
-                                                            event.preventDefault();
-
-                                                            const newId = crypto.randomUUID();
+                    <div className="w-full h-full fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                        {selectedItem?.type === "checkList" && (
+                            <div className="h-dvh flex flex-col bg-green-300">
+                                <div className="flex-2 pt-10 py-6 px-4">
+                                    <div className="border-4 border-amber-500 p-2 w-full h-full bg-amber-200 rounded-lg relative">
+                                        <div className="w-full flex justify-center text-lg font-bold mb-3">
+                                            <input
+                                                className="w-40 text-center"
+                                                type="text"
+                                                value={selectedItem?.title || ""}
+                                                placeholder="add title..."
+                                                onChange={(e) => {
+                                                    const text = e.target.value;
+                                                    setDroppedItems((prev) =>
+                                                        prev.map((item) =>
+                                                            item.id === selectedId
+                                                                ? {
+                                                                      ...item,
+                                                                      title: text,
+                                                                  }
+                                                                : item,
+                                                        ),
+                                                    );
+                                                }}
+                                            />
+                                        </div>
+                                        <ul className="grid gap-4">
+                                            {selectedItem?.data?.map((subItem) => (
+                                                <li key={subItem.id} className="flex gap-2 items-center">
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={subItem.checked}
+                                                        onChange={(e) => {
+                                                            const checked = e.target.checked;
 
                                                             setDroppedItems((prev) =>
                                                                 prev.map((item) =>
                                                                     item.id === selectedId
                                                                         ? {
                                                                               ...item,
-                                                                              data: [
-                                                                                  ...item.data,
-                                                                                  {
-                                                                                      id: newId,
-                                                                                      checked: false,
-                                                                                      text: "",
-                                                                                  },
-                                                                              ],
+                                                                              data: item.data.map((d) =>
+                                                                                  d.id === subItem.id
+                                                                                      ? { ...d, checked }
+                                                                                      : d,
+                                                                              ),
                                                                           }
                                                                         : item,
                                                                 ),
                                                             );
+                                                        }}
+                                                    />
 
-                                                            // focus ช่องใหม่
-                                                            setTimeout(() => {
-                                                                const inputs = document.querySelectorAll(".sub-input");
-                                                                inputs[inputs.length - 1]?.focus();
-                                                            }, 0);
-                                                        }
-                                                    }}
-                                                />
-                                            </li>
-                                        ))}
-                                    </ul>
-                                    <button
-                                        className="border h-14 w-14 absolute bottom-2 right-2 rounded-full bg-white"
-                                        onClick={() => setDisplayPopup(false)}
-                                    >
-                                        ปิด
-                                    </button>
+                                                    <input
+                                                        className={`w-full sub-input ${
+                                                            subItem.checked ? "line-through opacity-50" : ""
+                                                        }`}
+                                                        value={subItem.text}
+                                                        placeholder="เพิ่มข้อความ..."
+                                                        onChange={(e) => {
+                                                            const text = e.target.value;
+
+                                                            setDroppedItems((prev) =>
+                                                                prev.map((item) =>
+                                                                    item.id === selectedId
+                                                                        ? {
+                                                                              ...item,
+                                                                              data: item.data.map((d) =>
+                                                                                  d.id === subItem.id
+                                                                                      ? { ...d, text }
+                                                                                      : d,
+                                                                              ),
+                                                                          }
+                                                                        : item,
+                                                                ),
+                                                            );
+                                                        }}
+                                                        onKeyDown={(event) => {
+                                                            if (event.key === "Enter") {
+                                                                event.preventDefault();
+                                                                if (selectedItem.data?.length === 5) {
+                                                                    return alert("สูงสุดได้ 5 รายการ");
+                                                                }
+                                                                const newId = crypto.randomUUID();
+
+                                                                setDroppedItems((prev) =>
+                                                                    prev.map((item) =>
+                                                                        item.id === selectedId
+                                                                            ? {
+                                                                                  ...item,
+                                                                                  data: [
+                                                                                      ...item.data,
+                                                                                      {
+                                                                                          id: newId,
+                                                                                          checked: false,
+                                                                                          text: "",
+                                                                                      },
+                                                                                  ],
+                                                                              }
+                                                                            : item,
+                                                                    ),
+                                                                );
+                                                                // focus ช่องใหม่
+                                                                setTimeout(() => {
+                                                                    const inputs =
+                                                                        document.querySelectorAll(".sub-input");
+                                                                    inputs[inputs.length - 1]?.focus();
+                                                                }, 0);
+                                                            }
+                                                        }}
+                                                    />
+                                                </li>
+                                            ))}
+                                        </ul>
+                                        <button
+                                            className="border h-14 w-14 absolute bottom-2 right-2 rounded-full bg-white"
+                                            onClick={() => setDisplayPopup(false)}
+                                        >
+                                            ปิด
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="flex-1">
+                                    <div className="border h-full relative">bottom</div>
                                 </div>
                             </div>
-                            <div className="flex-1">
-                                <div className="border h-full relative">bottom</div>
+                        )}
+                        {selectedItem?.type === "note" && (
+                            <div className="h-dvh flex flex-col bg-blue-300">
+                                <div className="flex-2 pt-10 py-6 px-4">
+                                    <div className="border-4 border-amber-500 p-2 w-full h-full bg-amber-200 rounded-lg relative">
+                                        <div className="w-full flex justify-center text-lg font-bold mb-3">
+                                            brain dump
+                                        </div>
+                                        <textarea
+                                            className="w-full h-[calc(100%-40px)]"
+                                            placeholder="จดอะไรสักอย่าง..."
+                                            onChange={(e) => {
+                                                const text = e.target.value;
+                                                setDroppedItems((prev) =>
+                                                    prev.map((item) =>
+                                                        item.id === selectedId ? { ...item, note: text } : item,
+                                                    ),
+                                                );
+                                            }}
+                                        >
+                                            {selectedItem?.note || ""}
+                                        </textarea>
+                                        <button
+                                            className="border h-14 w-14 absolute bottom-2 right-2 rounded-full bg-white"
+                                            onClick={() => setDisplayPopup(false)}
+                                        >
+                                            ปิด
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="flex-1">
+                                    <div className="border h-full relative">bottom</div>
+                                </div>
                             </div>
-                        </div>
+                        )}
+                        {selectedItem?.type === "camra" && (
+                            <div className="h-dvh flex flex-col bg-pink-300">
+                                <div className="flex-2 pt-10 py-6 px-4">
+                                    <div className="border-4 border-amber-500 p-2 w-full h-full bg-amber-200 rounded-lg relative">
+                                        รูป
+                                        <button
+                                            className="border h-14 w-14 absolute bottom-2 right-2 rounded-full bg-white"
+                                            onClick={() => setDisplayPopup(false)}
+                                        >
+                                            ปิด
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="flex-1">
+                                    <div className="border h-full relative">bottom</div>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 )}
             </div>
