@@ -3,9 +3,12 @@ import { DragDropProvider } from "@dnd-kit/react";
 import { useState } from "react";
 import Droppable from "../components/Droppable";
 import Draggable from "../components/Draggable";
-import note from "../../public/images/note.png";
-import camra from "../../public/images/camra.png";
-import checkList from "../../public/images/checkList.png";
+import note from "../../public/images/note.svg";
+import camra from "../../public/images/camra.svg";
+import checkList from "../../public/images/checkList.svg";
+import timsumCat from "../../public/images/timsumCat.svg";
+import Book from "../components/Book";
+import Image from "next/image";
 
 function Page() {
     const [items] = useState([
@@ -76,23 +79,22 @@ function Page() {
                 </div>
                 <div className="flex-1">
                     <div className="h-full relative">
-                        <div className="absolute bottom-8 right-14 flex flex-col w-fit items-end gap-1">
+                        <div className="absolute bottom-7 right-14 flex flex-col w-fit items-end gap-2 z-10">
                             {displayPalette && (
-                                <div className="p-2 w-fit flex gap-2">
+                                <div className="p-2 w-fit flex gap-2 rounded-lg bg-sky-50">
                                     {items.map((el) => (
                                         <Draggable key={el.id} id={el.id} title={el.title} src={el.src} />
                                     ))}
                                 </div>
                             )}
-                            <button className="border" onClick={() => setDisplayPalette(!displayPalette)}>
-                                รายการ
-                            </button>
+                            <Book onClick={() => setDisplayPalette(!displayPalette)} displayPalette={displayPalette} />
                         </div>
+                        <Image src={timsumCat} className="absolute bottom-0 left-30" width={120} />
                         <div className="absolute bottom-0 border-b-3 h-7 w-full bg-amber-600 border-4 border-amber-500 rounded-sm"></div>
                     </div>
                 </div>
                 {displayPopup && (
-                    <div className="w-full h-full fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                    <div className="w-[98%] h-[98%] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
                         {selectedItem?.type === "checkList" && (
                             <div className="h-dvh flex flex-col bg-green-300">
                                 <div className="flex-2 pt-10 py-6 px-4">
