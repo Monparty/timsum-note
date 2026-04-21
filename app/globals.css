@@ -43,8 +43,4 @@ input[type="checkbox"] {
     height: 24px;
     cursor: pointer;
     accent-color: #16b71b;
-    color: white;
-
-    background-color: #ffffff;
-    border-color: #ffffff;
 }

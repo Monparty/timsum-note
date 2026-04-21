@@ -49,8 +49,10 @@ function Page() {
                 }
 
                 // drop ลงช่อง cell ใดก็ได้
-                const original = items.find((el) => el.id === id) || droppedItems?.find((el) => el.id === id);
+                const isOccupied = droppedItems?.some((el) => el.cellId === target.id && el.id !== id);
+                if (isOccupied) return;
 
+                const original = items.find((el) => el.id === id) || droppedItems?.find((el) => el.id === id);
                 if (!original) return;
 
                 setDroppedItems((prev) => [
@@ -92,6 +94,7 @@ function Page() {
                         items={items}
                         setDroppedItems={setDroppedItems}
                         isShowObj
+                        index={1}
                     />
                 </div>
                 {displayPopup && (
@@ -247,6 +250,7 @@ function Page() {
                                         setDisplayPalette={setDisplayPalette}
                                         items={items}
                                         setDroppedItems={setDroppedItems}
+                                        index={2}
                                     />
                                 </div>
                             </div>
@@ -256,7 +260,7 @@ function Page() {
                                 <div className="flex-2 pt-10 py-6 px-4">
                                     <div className="border-4 border-amber-500 py-2 px-4 w-full h-full bg-amber-200 rounded-lg rounded-br-4xl relative">
                                         <div className="w-full flex justify-center text-lg font-bold mb-3">
-                                            brain dump
+                                            จดโน๊ต...
                                         </div>
                                         <textarea
                                             className="w-full h-[calc(100%-40px)]"
@@ -280,6 +284,7 @@ function Page() {
                                         setDisplayPalette={setDisplayPalette}
                                         items={items}
                                         setDroppedItems={setDroppedItems}
+                                        index={3}
                                     />
                                 </div>
                             </div>
@@ -298,6 +303,7 @@ function Page() {
                                         setDisplayPalette={setDisplayPalette}
                                         items={items}
                                         setDroppedItems={setDroppedItems}
+                                        index={4}
                                     />
                                 </div>
                             </div>

@@ -8,7 +8,7 @@ function Draggable({ id, onClick, src }) {
     return (
         <div
             ref={ref}
-            className="w-11 h-11 rounded-lg bg-pink-200 flex items-center justify-center pb-2 cursor-grab"
+            className="w-11 h-11 rounded-lg bg-yellow-200 flex items-center justify-center p-0.5 cursor-grab"
             onClick={onClick}
         >
             <Image
