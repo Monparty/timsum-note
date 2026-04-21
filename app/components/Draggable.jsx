@@ -16,7 +16,7 @@ function Draggable({ id, onClick, src }) {
                 width={10}
                 height={10}
                 alt="image"
-                className="[-webkit-user-drag:none] w-full h-full object-contain"
+                className="select-none [-webkit-user-drag:none] w-full h-full object-contain"
             />
         </div>
     );

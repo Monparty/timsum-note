@@ -10,7 +10,7 @@ export default function Page() {
                 onClick={() => window.open("/timsum-note", "popup", "width=360,height=480")}
                 // onClick={() => router.push("/landing")}
             >
-                เปิดติ่มซำแอป
+                เปิดติ่มซำโน๊ต
             </button>
         </div>
     );

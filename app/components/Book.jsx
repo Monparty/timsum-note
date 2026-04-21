@@ -6,9 +6,9 @@ function Book({ onClick, displayPalette }) {
     return (
         <div onClick={onClick} className="cursor-pointer">
             {displayPalette ? (
-                <Image src={bookOpen} width={55} alt="book" className="[-webkit-user-drag:none]" />
+                <Image src={bookOpen} width={55} alt="book" className="select-none [-webkit-user-drag:none]" />
             ) : (
-                <Image src={bookClose} width={55} alt="book" className="[-webkit-user-drag:none] hover:-translate-y-1 transition-all" />
+                <Image src={bookClose} width={55} alt="book" className="select-none [-webkit-user-drag:none] hover:-translate-y-1 transition-all" />
             )}
         </div>
     );

@@ -98,7 +98,7 @@ function Page() {
                         </div>
                         <Image
                             src={brush}
-                            className="absolute bottom-7 right-3 [-webkit-user-drag:none] cursor-pointer hover:-translate-y-1 transition-all"
+                            className="absolute bottom-7 right-3 select-none [-webkit-user-drag:none] cursor-pointer hover:-translate-y-1 transition-all"
                             alt="brush"
                             width={34}
                             onClick={() => {
@@ -108,7 +108,7 @@ function Page() {
                         />
                         <Image
                             src={timsumCat}
-                            className="absolute bottom-0 left-1/2 -translate-x-1/2 [-webkit-user-drag:none] cursor-grab"
+                            className="absolute bottom-0 left-1/2 -translate-x-1/2 select-none [-webkit-user-drag:none] cursor-grab"
                             alt="timsum cat"
                             width={120}
                         />
