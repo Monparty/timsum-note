@@ -6,11 +6,14 @@ import Draggable from "../components/Draggable";
 import note from "../../public/images/note.svg";
 import camra from "../../public/images/camra.svg";
 import checkList from "../../public/images/checkList.svg";
-import timsumCat from "../../public/images/timsumCat.svg";
+import TimsumCat from "../components/TimsumCat";
 import brush from "../../public/images/brush.svg";
+import catHand from "../../public/images/catHand.svg";
+import pc from "../../public/images/pc.svg";
 import Book from "../components/Book";
 import Image from "next/image";
 import ButtonClose from "../components/ButtonClose";
+import TimsumContainer from "../components/TimsumContainer";
 
 function Page() {
     const [items] = useState([
@@ -28,8 +31,6 @@ function Page() {
         if (!droppedItems) return;
         localStorage.setItem("timsumNote", JSON.stringify(droppedItems));
     }, [droppedItems]);
-
-    // console.log("droppedItems", droppedItems);
 
     return (
         <DragDropProvider
@@ -85,35 +86,13 @@ function Page() {
                     </div>
                 </div>
                 <div className="flex-1">
-                    <div className="h-full relative">
-                        <div className="absolute bottom-7 right-15 flex flex-col w-fit items-end gap-2 z-10">
-                            {displayPalette && (
-                                <div className="p-2 w-fit flex gap-2 rounded-lg bg-green-100 border border-slate-200">
-                                    {items.map((el) => (
-                                        <Draggable key={el.id} id={el.id} title={el.title} src={el.src} />
-                                    ))}
-                                </div>
-                            )}
-                            <Book onClick={() => setDisplayPalette(!displayPalette)} displayPalette={displayPalette} />
-                        </div>
-                        <Image
-                            src={brush}
-                            className="absolute bottom-7 right-3 select-none [-webkit-user-drag:none] cursor-pointer hover:-translate-y-1 transition-all"
-                            alt="brush"
-                            width={34}
-                            onClick={() => {
-                                localStorage.clear();
-                                setDroppedItems([]);
-                            }}
-                        />
-                        <Image
-                            src={timsumCat}
-                            className="absolute bottom-0 left-1/2 -translate-x-1/2 select-none [-webkit-user-drag:none] cursor-grab"
-                            alt="timsum cat"
-                            width={120}
-                        />
-                        <div className="absolute bottom-0 border-b-3 h-7 w-full bg-amber-600 border-4 border-amber-500 rounded-sm"></div>
-                    </div>
+                    <TimsumContainer
+                        displayPalette={displayPalette}
+                        setDisplayPalette={setDisplayPalette}
+                        items={items}
+                        setDroppedItems={setDroppedItems}
+                        isShowObj
+                    />
                 </div>
                 {displayPopup && (
                     <div className="w-full h-full fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
@@ -224,6 +203,36 @@ function Page() {
                                                                     inputs[inputs.length - 1]?.focus();
                                                                 }, 0);
                                                             }
+                                                            if (
+                                                                event.key === "Backspace" &&
+                                                                subItem.text === "" &&
+                                                                selectedItem.data?.length > 1
+                                                            ) {
+                                                                event.preventDefault();
+                                                                setDroppedItems((prev) =>
+                                                                    prev.map((item) =>
+                                                                        item.id === selectedId
+                                                                            ? {
+                                                                                  ...item,
+                                                                                  data: item.data.filter(
+                                                                                      (d) => d.id !== subItem.id,
+                                                                                  ),
+                                                                              }
+                                                                            : item,
+                                                                    ),
+                                                                );
+                                                                // focus row ก่อนหน้า
+                                                                setTimeout(() => {
+                                                                    const inputs =
+                                                                        document.querySelectorAll(".sub-input");
+                                                                    const currentIndex = Array.from(inputs).findIndex(
+                                                                        (el) => el === event.target,
+                                                                    );
+                                                                    if (currentIndex > 0) {
+                                                                        inputs[currentIndex - 1]?.focus();
+                                                                    }
+                                                                }, 0);
+                                                            }
                                                         }}
                                                     />
                                                 </li>
@@ -233,7 +242,12 @@ function Page() {
                                     </div>
                                 </div>
                                 <div className="flex-1">
-                                    <div className="h-full relative">bottom</div>
+                                    <TimsumContainer
+                                        displayPalette={displayPalette}
+                                        setDisplayPalette={setDisplayPalette}
+                                        items={items}
+                                        setDroppedItems={setDroppedItems}
+                                    />
                                 </div>
                             </div>
                         )}
@@ -261,7 +275,12 @@ function Page() {
                                     </div>
                                 </div>
                                 <div className="flex-1">
-                                    <div className="h-full relative">bottom</div>
+                                    <TimsumContainer
+                                        displayPalette={displayPalette}
+                                        setDisplayPalette={setDisplayPalette}
+                                        items={items}
+                                        setDroppedItems={setDroppedItems}
+                                    />
                                 </div>
                             </div>
                         )}
@@ -274,7 +293,12 @@ function Page() {
                                     </div>
                                 </div>
                                 <div className="flex-1">
-                                    <div className="h-full relative">bottom</div>
+                                    <TimsumContainer
+                                        displayPalette={displayPalette}
+                                        setDisplayPalette={setDisplayPalette}
+                                        items={items}
+                                        setDroppedItems={setDroppedItems}
+                                    />
                                 </div>
                             </div>
                         )}
