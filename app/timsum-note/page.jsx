@@ -22,7 +22,10 @@ function Page() {
         { id: 2, src: note, title: "", data: [{ isCheck: false, text: "" }], type: "note", note: "" },
         { id: 3, src: camra, title: "", data: [{ isCheck: false, text: "" }], type: "camra", note: "" },
     ]);
-    const [droppedItems, setDroppedItems] = useState(JSON.parse(localStorage?.getItem("timsumNote")) || []);
+    const [droppedItems, setDroppedItems] = useState(() => {
+        if (typeof window === "undefined") return [];
+        return JSON.parse(localStorage.getItem("timsumNote")) || [];
+    });
     const [selectedId, setSelectedId] = useState(null);
     const [displayPalette, setDisplayPalette] = useState(false);
     const [displayPopup, setDisplayPopup] = useState(false);
