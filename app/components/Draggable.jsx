@@ -6,13 +6,17 @@ function Draggable({ id, onClick, src }) {
     const { ref } = useDraggable({ id });
 
     return (
-        <div ref={ref} className="w-11 h-11 rounded-lg bg-red-200 flex items-center justify-center pb-2 cursor-grab" onClick={onClick}>
+        <div
+            ref={ref}
+            className="w-11 h-11 rounded-lg bg-pink-200 flex items-center justify-center pb-2 cursor-grab"
+            onClick={onClick}
+        >
             <Image
                 src={src}
                 width={10}
                 height={10}
                 alt="image"
-                className="select-none [user-drag:none] [-webkit-user-drag:none] w-full h-full object-contain"
+                className="[-webkit-user-drag:none] w-full h-full object-contain"
             />
         </div>
     );

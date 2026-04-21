@@ -5,7 +5,11 @@ import bookClose from "../../public/images/bookClose.svg";
 function Book({ onClick, displayPalette }) {
     return (
         <div onClick={onClick} className="cursor-pointer">
-            {displayPalette ? <Image src={bookOpen} width={60} /> : <Image src={bookClose} width={60} />}
+            {displayPalette ? (
+                <Image src={bookOpen} width={55} alt="book" className="[-webkit-user-drag:none]" />
+            ) : (
+                <Image src={bookClose} width={55} alt="book" className="[-webkit-user-drag:none] hover:-translate-y-1 transition-all" />
+            )}
         </div>
     );
 }
