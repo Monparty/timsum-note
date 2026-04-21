@@ -9,9 +9,32 @@ import piggy from "../../public/images/piggy.svg";
 import matcha from "../../public/images/matcha.svg";
 import Book from "../components/Book";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useRef, useMemo } from "react";
+import { TypeAnimation } from "react-type-animation";
 
-function TimsumContainer({ displayPalette, setDisplayPalette, items, setDroppedItems, isShowObj = false, index }) {
+function TimsumContainer({
+    displayPalette,
+    setDisplayPalette,
+    items,
+    setDroppedItems,
+    isShowObj = false,
+    index,
+    setDisplayQr = () => {},
+    random0to4,
+    setRandomNum,
+}) {
+    const paletteRef = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (displayPalette && paletteRef.current && !paletteRef.current.contains(e.target)) {
+                setDisplayPalette(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, [displayPalette, setDisplayPalette]);
+
     useEffect(() => {
         const bars = [`#bar-left${index}`, `#bar-right${index}`].map((id) => document.querySelector(id));
 
@@ -31,11 +54,34 @@ function TimsumContainer({ displayPalette, setDisplayPalette, items, setDroppedI
         return () => window.removeEventListener("mousemove", handleMove);
     }, []);
 
+    const words = [
+        "สู้ๆนะงับ",
+        "ขอให้งานวันนี้ราบรื่นนะ",
+        "ขอให้มีแต่คนรักคนเอ็นดูนะ",
+        "รักนะ",
+        "ตั้งใจทำงานนะ",
+        "ไม่ต้องคิดถึงเค้าบ่อยล่ะ",
+        "รักเค้าแค่ไหน",
+        "คิดถึงมากเลย",
+        "ขอให้โชคดีนะ",
+        "คิดถึงจัง",
+        "คิดถึงอยู่นะ",
+        "เป็นกำลังใจให้นะ",
+    ];
+
+    const sequence = useMemo(() => {
+        const shuffled = [...words].sort(() => Math.random() - 0.5);
+        return shuffled.flatMap((w) => [w, 4000]);
+    }, []);
+
     return (
         <div className="h-full relative">
             {isShowObj && (
                 <>
-                    <div className="absolute bottom-7 right-15 flex flex-col w-fit items-end gap-2 z-20">
+                    <div
+                        ref={paletteRef}
+                        className="absolute bottom-7 right-15 flex flex-col w-fit items-end gap-2 z-20"
+                    >
                         {displayPalette && (
                             <div className="p-2 w-fit flex gap-2 rounded-lg bg-white border border-slate-200">
                                 {items.map((el) => (
@@ -57,6 +103,17 @@ function TimsumContainer({ displayPalette, setDisplayPalette, items, setDroppedI
                     />
                 </>
             )}
+            {index === 1 && (
+                <div className="absolute -top-4 left-8 z-30 select-none [-webkit-user-drag:none] max-w-1/2 p-1 rounded-lg bg-white opacity-70 text-sm">
+                    <TypeAnimation
+                        sequence={sequence}
+                        speed={200}
+                        deletionSpeed={200}
+                        repeat={Infinity}
+                        cursor={true}
+                    />
+                </div>
+            )}
             {index === 2 && (
                 <Image
                     src={matcha}
@@ -71,6 +128,7 @@ function TimsumContainer({ displayPalette, setDisplayPalette, items, setDroppedI
                     className="absolute bottom-2 right-5 z-30 select-none [-webkit-user-drag:none] active:cursor-grabbing cursor-pointer hover:-translate-y-1 transition-all"
                     alt="piggy"
                     width={80}
+                    onClick={() => setDisplayQr(true)}
                 />
             )}
             {index === 4 && (
@@ -79,29 +137,33 @@ function TimsumContainer({ displayPalette, setDisplayPalette, items, setDroppedI
                     className="absolute bottom-4 right-5 z-30 select-none [-webkit-user-drag:none] active:cursor-grabbing cursor-pointer hover:-translate-y-1 transition-all"
                     alt="cam"
                     width={60}
+                    onClick={() => setRandomNum(random0to4())}
                 />
             )}
-            <Image
-                src={catHand}
-                id={`bar-left${index}`}
-                className="absolute bottom-2 left-18 z-10 select-none [-webkit-user-drag:none] cursor-grab active:cursor-grabbing"
-                alt="cat hand"
-                width={120}
-            />
-            <Image
-                src={catHand}
-                id={`bar-right${index}`}
-                className="absolute bottom-2 right-18 z-10 select-none [-webkit-user-drag:none] cursor-grab active:cursor-grabbing"
-                alt="cat hand"
-                width={120}
-            />
-            <TimsumCat
-                className="absolute -bottom-4 left-1/2 -translate-x-1/2 select-none [-webkit-user-drag:none] cursor-grab active:cursor-grabbing"
-                width={120}
-            />
+            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2">
+                <div className="flex relative">
+                    <Image
+                        src={catHand}
+                        id={`bar-left${index}`}
+                        className="absolute bottom-6 -left-8 select-none [-webkit-user-drag:none] cursor-grab active:cursor-grabbing border w-fit"
+                        alt="cat hand"
+                        width={120}
+                    />
+                    <TimsumCat
+                        className="select-none [-webkit-user-drag:none] cursor-grab active:cursor-grabbing"
+                        width={120}
+                    />
+                    <Image
+                        src={catHand}
+                        id={`bar-right${index}`}
+                        className="absolute bottom-6 -right-8 select-none [-webkit-user-drag:none] cursor-grab active:cursor-grabbing border w-fit"
+                        alt="cat hand"
+                        width={120}
+                    />
+                </div>
+            </div>
             <Image
                 src={pc}
-                id="bar-right"
                 className="absolute bottom-1 left-5 z-30 select-none [-webkit-user-drag:none]"
                 alt="computer"
                 width={120}

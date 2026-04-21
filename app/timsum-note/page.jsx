@@ -6,14 +6,15 @@ import Draggable from "../components/Draggable";
 import note from "../../public/images/note.svg";
 import camra from "../../public/images/camra.svg";
 import checkList from "../../public/images/checkList.svg";
-import TimsumCat from "../components/TimsumCat";
-import brush from "../../public/images/brush.svg";
-import catHand from "../../public/images/catHand.svg";
-import pc from "../../public/images/pc.svg";
-import Book from "../components/Book";
 import Image from "next/image";
 import ButtonClose from "../components/ButtonClose";
 import TimsumContainer from "../components/TimsumContainer";
+import qr from "../../public/images/qr.jpg";
+import tim1 from "../../public/images/tim1.jpg";
+import tim2 from "../../public/images/tim2.jpg";
+import tim3 from "../../public/images/tim3.jpg";
+import tim4 from "../../public/images/tim4.jpg";
+import tim5 from "../../public/images/tim5.jpg";
 
 function Page() {
     const [items] = useState([
@@ -25,7 +26,11 @@ function Page() {
     const [selectedId, setSelectedId] = useState(null);
     const [displayPalette, setDisplayPalette] = useState(false);
     const [displayPopup, setDisplayPopup] = useState(false);
+    const [displayQr, setDisplayQr] = useState(false);
     const selectedItem = droppedItems?.find((item) => item.id === selectedId);
+    const timImg = [tim1, tim2, tim3, tim4, tim5];
+    const random0to4 = () => Math.floor(Math.random() * 5);
+    const [randomNum, setRandomNum] = useState(0);
 
     useEffect(() => {
         if (!droppedItems) return;
@@ -95,6 +100,9 @@ function Page() {
                         setDroppedItems={setDroppedItems}
                         isShowObj
                         index={1}
+                        setDisplayQr={setDisplayQr}
+                        random0to4={random0to4}
+                        setRandomNum={setRandomNum}
                     />
                 </div>
                 {displayPopup && (
@@ -251,6 +259,9 @@ function Page() {
                                         items={items}
                                         setDroppedItems={setDroppedItems}
                                         index={2}
+                                        setDisplayQr={setDisplayQr}
+                                        random0to4={random0to4}
+                                        setRandomNum={setRandomNum}
                                     />
                                 </div>
                             </div>
@@ -285,6 +296,9 @@ function Page() {
                                         items={items}
                                         setDroppedItems={setDroppedItems}
                                         index={3}
+                                        setDisplayQr={setDisplayQr}
+                                        random0to4={random0to4}
+                                        setRandomNum={setRandomNum}
                                     />
                                 </div>
                             </div>
@@ -292,8 +306,14 @@ function Page() {
                         {selectedItem?.type === "camra" && (
                             <div className="h-dvh flex flex-col bg-pink-300">
                                 <div className="flex-2 pt-10 py-6 px-4">
-                                    <div className="border-4 border-amber-500 py-2 px-4 w-full h-full bg-amber-200 rounded-lg relative rounded-br-4xl">
-                                        รูป
+                                    <div className="border-4 border-amber-500 py-2 px-4 w-full h-full bg-amber-200 rounded-lg relative rounded-br-4xl flex items-center justify-center flex-col">
+                                        <Image
+                                            src={timImg[randomNum]}
+                                            width={170}
+                                            height={170}
+                                            alt="qr"
+                                            className="rounded-lg border-4 border-white select-none [-webkit-user-drag:none]"
+                                        />
                                         <ButtonClose onClick={() => setDisplayPopup(false)} />
                                     </div>
                                 </div>
@@ -304,10 +324,44 @@ function Page() {
                                         items={items}
                                         setDroppedItems={setDroppedItems}
                                         index={4}
+                                        setDisplayQr={setDisplayQr}
+                                        random0to4={random0to4}
+                                        setRandomNum={setRandomNum}
                                     />
                                 </div>
                             </div>
                         )}
+                    </div>
+                )}
+                {displayQr && (
+                    <div className="w-full h-full fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
+                        <div className="h-dvh flex flex-col bg-purple-300">
+                            <div className="flex-2 pt-10 py-6 px-4">
+                                <div className="border-4 border-amber-500 py-2 px-4 w-full h-full bg-amber-200 rounded-lg relative rounded-br-4xl flex items-center justify-center flex-col">
+                                    <h2 className="mb-2 select-none [-webkit-user-drag:none]">ติ่มซำขอตังกินเปียก</h2>
+                                    <Image
+                                        src={qr}
+                                        width={170}
+                                        height={170}
+                                        alt="qr"
+                                        className="rounded-lg select-none [-webkit-user-drag:none]"
+                                    />
+                                    <ButtonClose onClick={() => setDisplayQr(false)} />
+                                </div>
+                            </div>
+                            <div className="flex-1">
+                                <TimsumContainer
+                                    displayPalette={displayPalette}
+                                    setDisplayPalette={setDisplayPalette}
+                                    items={items}
+                                    setDroppedItems={setDroppedItems}
+                                    index={5}
+                                    setDisplayQr={setDisplayQr}
+                                    random0to4={random0to4}
+                                    setRandomNum={setRandomNum}
+                                />
+                            </div>
+                        </div>
                     </div>
                 )}
             </div>
