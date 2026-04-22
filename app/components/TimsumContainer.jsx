@@ -93,7 +93,7 @@ function TimsumContainer({
                     </div>
                     <Image
                         src={brush}
-                        className="absolute bottom-7 right-3 select-none [-webkit-user-drag:none] cursor-pointer hover:-translate-y-1 transition-all"
+                        className="absolute bottom-7 right-3 select-none [-webkit-user-drag:none] [user-drag:none] cursor-pointer hover:-translate-y-1 transition-all"
                         alt="brush"
                         width={34}
                         onClick={() => {
@@ -104,7 +104,7 @@ function TimsumContainer({
                 </>
             )}
             {index === 1 && (
-                <div className="absolute -top-4 left-8 z-30 select-none [-webkit-user-drag:none] max-w-1/2 p-1 rounded-lg bg-white opacity-70 text-sm">
+                <div className="absolute -top-4 left-8 z-30 select-none [-webkit-user-drag:none] [user-drag:none] max-w-1/2 p-1 rounded-lg bg-white opacity-70 text-sm">
                     <TypeAnimation
                         sequence={sequence}
                         speed={200}
@@ -117,7 +117,7 @@ function TimsumContainer({
             {index === 2 && (
                 <Image
                     src={matcha}
-                    className="absolute bottom-5 right-5 z-30 select-none [-webkit-user-drag:none] active:cursor-grabbing cursor-pointer hover:-translate-y-1 transition-all"
+                    className="absolute bottom-5 right-5 z-30 select-none [-webkit-user-drag:none] [user-drag:none] active:cursor-grabbing cursor-pointer hover:-translate-y-1 transition-all"
                     alt="matcha"
                     width={80}
                 />
@@ -125,7 +125,7 @@ function TimsumContainer({
             {index === 3 && (
                 <Image
                     src={piggy}
-                    className="absolute bottom-2 right-5 z-30 select-none [-webkit-user-drag:none] active:cursor-grabbing cursor-pointer hover:-translate-y-1 transition-all"
+                    className="absolute bottom-2 right-5 z-30 select-none [-webkit-user-drag:none] [user-drag:none] active:cursor-grabbing cursor-pointer hover:-translate-y-1 transition-all"
                     alt="piggy"
                     width={80}
                     onClick={() => setDisplayQr(true)}
@@ -134,7 +134,7 @@ function TimsumContainer({
             {index === 4 && (
                 <Image
                     src={cam}
-                    className="absolute bottom-4 right-5 z-30 select-none [-webkit-user-drag:none] active:cursor-grabbing cursor-pointer hover:-translate-y-1 transition-all"
+                    className="absolute bottom-4 right-5 z-30 select-none [-webkit-user-drag:none] [user-drag:none] active:cursor-grabbing cursor-pointer hover:-translate-y-1 transition-all"
                     alt="cam"
                     width={60}
                     onClick={() => setRandomNum(random0to4())}
@@ -145,18 +145,18 @@ function TimsumContainer({
                     <Image
                         src={catHand}
                         id={`bar-left${index}`}
-                        className="absolute bottom-6 -left-8 select-none [-webkit-user-drag:none] cursor-grab active:cursor-grabbing border w-fit"
+                        className="absolute bottom-6 -left-8 select-none [-webkit-user-drag:none] [user-drag:none] cursor-grab active:cursor-grabbing border w-fit"
                         alt="cat hand"
                         width={120}
                     />
                     <TimsumCat
-                        className="select-none [-webkit-user-drag:none] cursor-grab active:cursor-grabbing"
+                        className="select-none [-webkit-user-drag:none] [user-drag:none] cursor-grab active:cursor-grabbing"
                         width={120}
                     />
                     <Image
                         src={catHand}
                         id={`bar-right${index}`}
-                        className="absolute bottom-6 -right-8 select-none [-webkit-user-drag:none] cursor-grab active:cursor-grabbing border w-fit"
+                        className="absolute bottom-6 -right-8 select-none [-webkit-user-drag:none] [user-drag:none] cursor-grab active:cursor-grabbing border w-fit"
                         alt="cat hand"
                         width={120}
                     />
@@ -164,7 +164,7 @@ function TimsumContainer({
             </div>
             <Image
                 src={pc}
-                className="absolute bottom-1 left-5 z-30 select-none [-webkit-user-drag:none]"
+                className="absolute bottom-1 left-5 z-30 select-none [-webkit-user-drag:none] [user-drag:none]"
                 alt="computer"
                 width={120}
             />

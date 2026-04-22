@@ -8,7 +8,7 @@ function Draggable({ id, onClick, src }) {
     return (
         <div
             ref={ref}
-            className="w-11 h-11 rounded-lg bg-yellow-200 flex items-center justify-center p-0.5 cursor-grab"
+            className="w-11 h-11 rounded-lg bg-yellow-200 flex items-center justify-center p-0.5 cursor-grab touch-none"
             onClick={onClick}
         >
             <Image
@@ -16,7 +16,7 @@ function Draggable({ id, onClick, src }) {
                 width={10}
                 height={10}
                 alt="image"
-                className="select-none [-webkit-user-drag:none] w-full h-full object-contain"
+                className="select-none [-webkit-user-drag:none] [user-drag:none] w-full h-full object-contain"
             />
         </div>
     );

@@ -315,7 +315,7 @@ function Page() {
                                             width={170}
                                             height={170}
                                             alt="qr"
-                                            className="rounded-lg border-4 border-white select-none [-webkit-user-drag:none]"
+                                            className="rounded-lg border-4 border-white select-none [-webkit-user-drag:none] [user-drag:none]"
                                         />
                                         <ButtonClose onClick={() => setDisplayPopup(false)} />
                                     </div>
@@ -341,13 +341,13 @@ function Page() {
                         <div className="h-dvh flex flex-col bg-purple-300">
                             <div className="flex-2 pt-10 py-6 px-4">
                                 <div className="border-4 border-amber-500 py-2 px-4 w-full h-full bg-amber-200 rounded-lg relative rounded-br-4xl flex items-center justify-center flex-col">
-                                    <h2 className="mb-2 select-none [-webkit-user-drag:none]">ติ่มซำขอตังกินเปียก</h2>
+                                    <h2 className="mb-2 select-none [-webkit-user-drag:none] [user-drag:none]">ติ่มซำขอตังกินเปียก</h2>
                                     <Image
                                         src={qr}
                                         width={170}
                                         height={170}
                                         alt="qr"
-                                        className="rounded-lg select-none [-webkit-user-drag:none]"
+                                        className="rounded-lg select-none [-webkit-user-drag:none] [user-drag:none]"
                                     />
                                     <ButtonClose onClick={() => setDisplayQr(false)} />
                                 </div>
